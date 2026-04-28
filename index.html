@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プロフ帳メーカー</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========== 入力画面 ========== -->
+  <div id="form-screen" class="screen">
+    <div class="container">
+      <h1 class="title">✦ プロフ帳メーカー ✦</h1>
+      <p class="subtitle">入力して「生成」を押してね☆</p>
+      <form id="profile-form">
+        <!-- script.js で自動生成 -->
+      </form>
+      <button id="generate-btn" class="btn btn-primary">✨ 生成する</button>
+      <p class="bottom-note">空欄のままでもOKだよ♪</p>
+    </div>
+  </div>
+
+  <!-- ========== プレビュー画面 ========== -->
+  <div id="preview-screen" class="screen hidden">
+    <div class="container">
+      <p class="save-hint">📱 長押しして画像を保存してね♪</p>
+      <div id="preview-wrapper">
+        <img id="preview-img" alt="完成したプロフ帳">
+      </div>
+      <button id="back-btn" class="btn btn-secondary">← 入力に戻る</button>
+    </div>
+  </div>
+
+  <!-- 描画専用 Canvas（非表示） -->
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
