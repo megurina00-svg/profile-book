@@ -2,52 +2,52 @@
 
 // ============================================================
 // 項目設定オブジェクト
-// x, y, boxWidth はテンプレ画像サイズ（750×1050）基準の推定値
-// 実機確認後、各値を微調整してください
+// テンプレ画像実サイズ：1055 × 1491 px 基準
+// 実機確認後、x / y / fontSize を微調整してください
 // ============================================================
 const FIELDS = [
   {
     key: 'name',            label: 'おなまえ',
     maxLength: 12,          maxLines: 1,
-    fontSize: 26,           lineHeight: 0,
-    x: 82,                  y: 207,
-    boxWidth: 320,          boxHeight: 42,
+    fontSize: 37,           lineHeight: 0,
+    x: 115,                 y: 294,
+    boxWidth: 450,          boxHeight: 60,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'nickname',        label: 'ニックネーム',
     maxLength: 10,          maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 82,                  y: 268,
-    boxWidth: 295,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 115,                 y: 381,
+    boxWidth: 415,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'birthday',        label: 'たんじょうび',
     maxLength: 8,           maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 100,                 y: 338,
-    boxWidth: 270,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 141,                 y: 480,
+    boxWidth: 380,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: '例：6/15'
   },
   {
     key: 'zodiac',          label: '星座',
     maxLength: 5,           maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 82,                  y: 410,
-    boxWidth: 140,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 115,                 y: 582,
+    boxWidth: 197,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: '例：うお座'
   },
   {
     key: 'bloodType',       label: '血液型',
     maxLength: 2,           maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 327,                 y: 410,
-    boxWidth: 60,           boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 460,                 y: 582,
+    boxWidth: 84,           boxHeight: 54,
     align: 'center',        baseline: 'alphabetic',
     wrap: false,
     type: 'select',         options: ['', 'A', 'B', 'O', 'AB']
@@ -55,135 +55,135 @@ const FIELDS = [
   {
     key: 'address',         label: '住んでるところ',
     maxLength: 12,          maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 82,                  y: 480,
-    boxWidth: 335,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 115,                 y: 682,
+    boxWidth: 471,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'favoriteFood',    label: '好きな食べもの',
     maxLength: 12,          maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 82,                  y: 550,
-    boxWidth: 295,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 115,                 y: 781,
+    boxWidth: 415,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'dislikedFood',    label: 'きらいな食べもの',
     maxLength: 12,          maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 82,                  y: 620,
-    boxWidth: 295,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 115,                 y: 880,
+    boxWidth: 415,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'favoriteColor',   label: '好きな色',
     maxLength: 10,          maxLines: 1,
-    fontSize: 20,           lineHeight: 0,
-    x: 82,                  y: 690,
-    boxWidth: 180,          boxHeight: 38,
+    fontSize: 28,           lineHeight: 0,
+    x: 115,                 y: 980,
+    boxWidth: 253,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'favoriteSubject', label: '好きな教科',
     maxLength: 10,          maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 82,                  y: 760,
-    boxWidth: 310,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 115,                 y: 1079,
+    boxWidth: 436,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'weakSubject',     label: '苦手な教科',
     maxLength: 10,          maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 82,                  y: 830,
-    boxWidth: 310,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 115,                 y: 1179,
+    boxWidth: 436,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'club',            label: '部活',
     maxLength: 10,          maxLines: 1,
-    fontSize: 22,           lineHeight: 0,
-    x: 82,                  y: 900,
-    boxWidth: 310,          boxHeight: 38,
+    fontSize: 31,           lineHeight: 0,
+    x: 115,                 y: 1278,
+    boxWidth: 436,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'hobby',           label: '趣味',
     maxLength: 9,           maxLines: 1,
-    fontSize: 20,           lineHeight: 0,
-    x: 500,                 y: 268,
-    boxWidth: 188,          boxHeight: 38,
+    fontSize: 28,           lineHeight: 0,
+    x: 703,                 y: 381,
+    boxWidth: 264,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'skill',           label: '特技',
     maxLength: 9,           maxLines: 1,
-    fontSize: 20,           lineHeight: 0,
-    x: 500,                 y: 338,
-    boxWidth: 195,          boxHeight: 38,
+    fontSize: 28,           lineHeight: 0,
+    x: 703,                 y: 480,
+    boxWidth: 274,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'myBoom',          label: 'マイブーム',
     maxLength: 9,           maxLines: 1,
-    fontSize: 20,           lineHeight: 0,
-    x: 500,                 y: 408,
-    boxWidth: 180,          boxHeight: 38,
+    fontSize: 28,           lineHeight: 0,
+    x: 703,                 y: 579,
+    boxWidth: 253,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'favoriteType',    label: '好きなタイプ',
     maxLength: 9,           maxLines: 1,
-    fontSize: 20,           lineHeight: 0,
-    x: 500,                 y: 478,
-    boxWidth: 175,          boxHeight: 38,
+    fontSize: 28,           lineHeight: 0,
+    x: 703,                 y: 679,
+    boxWidth: 246,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'dream',           label: '将来の夢',
     maxLength: 9,           maxLines: 1,
-    fontSize: 20,           lineHeight: 0,
-    x: 500,                 y: 548,
-    boxWidth: 185,          boxHeight: 38,
+    fontSize: 28,           lineHeight: 0,
+    x: 703,                 y: 778,
+    boxWidth: 260,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'holiday',         label: '休みの日なにしてる？',
     maxLength: 10,          maxLines: 1,
-    fontSize: 18,           lineHeight: 0,
-    x: 500,                 y: 618,
-    boxWidth: 185,          boxHeight: 38,
+    fontSize: 26,           lineHeight: 0,
+    x: 703,                 y: 878,
+    boxWidth: 260,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'wantNow',         label: '今いちばんほしいもの',
     maxLength: 9,           maxLines: 1,
-    fontSize: 18,           lineHeight: 0,
-    x: 500,                 y: 688,
-    boxWidth: 180,          boxHeight: 38,
+    fontSize: 26,           lineHeight: 0,
+    x: 703,                 y: 977,
+    boxWidth: 253,          boxHeight: 54,
     align: 'left',          baseline: 'alphabetic',
     wrap: false,            placeholder: ''
   },
   {
     key: 'message',         label: 'ひとことメッセージ',
     maxLength: 54,          maxLines: 3,
-    fontSize: 18,           lineHeight: 24,
-    x: 490,                 y: 760,
-    boxWidth: 200,          boxHeight: 175,
+    fontSize: 26,           lineHeight: 34,
+    x: 689,                 y: 1079,
+    boxWidth: 281,          boxHeight: 248,
     align: 'left',          baseline: 'alphabetic',
     wrap: true,             placeholder: '自由に書いてね♪'
   }
