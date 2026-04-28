@@ -1,332 +1,203 @@
 'use strict';
 
 // ============================================================
-// 項目設定オブジェクト
-// テンプレ画像実サイズ：1055 × 1491 px 基準
-// 実機確認後、x / y / fontSize を微調整してください
+// テンプレート画像の実サイズ（ px ）
+// ここを変えると全座標が自動スケールされます
+// ============================================================
+const TMPL_W = 1055;
+const TMPL_H = 1491;
+
+// ============================================================
+// フィールド定義
+// x, y, w はすべて TMPL_W × TMPL_H を基準とした座標（px）
+//   x  = テキスト描画開始 x
+//   y  = テキストの baseline y（≒ 点線の高さ）
+//   w  = 使用可能な横幅
+//   fs = Canvas 描画フォントサイズ（px）
+//   lh = 行間（wrap:true のみ使用）
 // ============================================================
 const FIELDS = [
-  {
-    key: 'name',            label: 'おなまえ',
-    maxLength: 12,          maxLines: 1,
-    fontSize: 37,           lineHeight: 0,
-    x: 115,                 y: 294,
-    boxWidth: 450,          boxHeight: 60,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'nickname',        label: 'ニックネーム',
-    maxLength: 10,          maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 115,                 y: 381,
-    boxWidth: 415,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'birthday',        label: 'たんじょうび',
-    maxLength: 8,           maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 141,                 y: 480,
-    boxWidth: 380,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: '例：6/15'
-  },
-  {
-    key: 'zodiac',          label: '星座',
-    maxLength: 5,           maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 115,                 y: 582,
-    boxWidth: 197,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: '例：うお座'
-  },
-  {
-    key: 'bloodType',       label: '血液型',
-    maxLength: 2,           maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 460,                 y: 582,
-    boxWidth: 84,           boxHeight: 54,
-    align: 'center',        baseline: 'alphabetic',
-    wrap: false,
-    type: 'select',         options: ['', 'A', 'B', 'O', 'AB']
-  },
-  {
-    key: 'address',         label: '住んでるところ',
-    maxLength: 12,          maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 115,                 y: 682,
-    boxWidth: 471,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'favoriteFood',    label: '好きな食べもの',
-    maxLength: 12,          maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 115,                 y: 781,
-    boxWidth: 415,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'dislikedFood',    label: 'きらいな食べもの',
-    maxLength: 12,          maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 115,                 y: 880,
-    boxWidth: 415,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'favoriteColor',   label: '好きな色',
-    maxLength: 10,          maxLines: 1,
-    fontSize: 28,           lineHeight: 0,
-    x: 115,                 y: 980,
-    boxWidth: 253,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'favoriteSubject', label: '好きな教科',
-    maxLength: 10,          maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 115,                 y: 1079,
-    boxWidth: 436,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'weakSubject',     label: '苦手な教科',
-    maxLength: 10,          maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 115,                 y: 1179,
-    boxWidth: 436,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'club',            label: '部活',
-    maxLength: 10,          maxLines: 1,
-    fontSize: 31,           lineHeight: 0,
-    x: 115,                 y: 1278,
-    boxWidth: 436,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'hobby',           label: '趣味',
-    maxLength: 9,           maxLines: 1,
-    fontSize: 28,           lineHeight: 0,
-    x: 703,                 y: 381,
-    boxWidth: 264,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'skill',           label: '特技',
-    maxLength: 9,           maxLines: 1,
-    fontSize: 28,           lineHeight: 0,
-    x: 703,                 y: 480,
-    boxWidth: 274,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'myBoom',          label: 'マイブーム',
-    maxLength: 9,           maxLines: 1,
-    fontSize: 28,           lineHeight: 0,
-    x: 703,                 y: 579,
-    boxWidth: 253,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'favoriteType',    label: '好きなタイプ',
-    maxLength: 9,           maxLines: 1,
-    fontSize: 28,           lineHeight: 0,
-    x: 703,                 y: 679,
-    boxWidth: 246,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'dream',           label: '将来の夢',
-    maxLength: 9,           maxLines: 1,
-    fontSize: 28,           lineHeight: 0,
-    x: 703,                 y: 778,
-    boxWidth: 260,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'holiday',         label: '休みの日なにしてる？',
-    maxLength: 10,          maxLines: 1,
-    fontSize: 26,           lineHeight: 0,
-    x: 703,                 y: 878,
-    boxWidth: 260,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'wantNow',         label: '今いちばんほしいもの',
-    maxLength: 9,           maxLines: 1,
-    fontSize: 26,           lineHeight: 0,
-    x: 703,                 y: 977,
-    boxWidth: 253,          boxHeight: 54,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: false,            placeholder: ''
-  },
-  {
-    key: 'message',         label: 'ひとことメッセージ',
-    maxLength: 54,          maxLines: 3,
-    fontSize: 26,           lineHeight: 34,
-    x: 689,                 y: 1079,
-    boxWidth: 281,          boxHeight: 248,
-    align: 'left',          baseline: 'alphabetic',
-    wrap: true,             placeholder: '自由に書いてね♪'
-  }
+  // ── 左カラム ──────────────────────────────
+  { key:'name',            label:'おなまえ',
+    x:108, y:302, w:445, fs:37, lh:0,  maxLength:12, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'nickname',        label:'ニックネーム',
+    x:108, y:411, w:400, fs:31, lh:0,  maxLength:10, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'birthday',        label:'たんじょうび',
+    x:145, y:519, w:350, fs:31, lh:0,  maxLength:8,  wrap:false, maxLines:1,
+    kind:'text', placeholder:'6/15', align:'left' },
+
+  { key:'zodiac',          label:'星座',
+    x:108, y:627, w:192, fs:31, lh:0,  maxLength:5,  wrap:false, maxLines:1,
+    kind:'text', placeholder:'うお座', align:'left' },
+
+  { key:'bloodType',       label:'血液型',
+    x:402, y:627, w:105, fs:31, lh:0,  maxLength:2,  wrap:false, maxLines:1,
+    kind:'select', options:['','A','B','O','AB'], align:'center' },
+
+  { key:'address',         label:'住んでるところ',
+    x:108, y:735, w:445, fs:31, lh:0,  maxLength:12, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'favoriteFood',    label:'好きな食べもの',
+    x:108, y:843, w:405, fs:31, lh:0,  maxLength:12, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'dislikedFood',    label:'きらいな食べもの',
+    x:108, y:951, w:405, fs:31, lh:0,  maxLength:12, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'favoriteColor',   label:'好きな色',
+    x:108, y:1059, w:252, fs:28, lh:0,  maxLength:10, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'favoriteSubject', label:'好きな教科',
+    x:108, y:1167, w:430, fs:31, lh:0,  maxLength:10, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'weakSubject',     label:'苦手な教科',
+    x:108, y:1275, w:430, fs:31, lh:0,  maxLength:10, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'club',            label:'部活',
+    x:108, y:1383, w:430, fs:31, lh:0,  maxLength:10, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  // ── 右カラム ──────────────────────────────
+  { key:'hobby',           label:'趣味',
+    x:678, y:411, w:280, fs:28, lh:0,  maxLength:9,  wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'skill',           label:'特技',
+    x:678, y:519, w:280, fs:28, lh:0,  maxLength:9,  wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'myBoom',          label:'マイブーム',
+    x:678, y:627, w:265, fs:28, lh:0,  maxLength:9,  wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'favoriteType',    label:'好きなタイプ',
+    x:678, y:735, w:258, fs:28, lh:0,  maxLength:9,  wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'dream',           label:'将来の夢',
+    x:678, y:843, w:268, fs:28, lh:0,  maxLength:9,  wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'holiday',         label:'休みの日なにしてる？',
+    x:678, y:951, w:258, fs:26, lh:0,  maxLength:10, wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  { key:'wantNow',         label:'今いちばんほしいもの',
+    x:678, y:1059, w:252, fs:26, lh:0,  maxLength:9,  wrap:false, maxLines:1,
+    kind:'text', placeholder:'', align:'left' },
+
+  // ── ひとことメッセージ（複数行） ────────────
+  { key:'message',         label:'ひとことメッセージ',
+    x:678, y:1167, w:272, fs:26, lh:38, maxLength:54, wrap:true,  maxLines:3,
+    kind:'textarea', placeholder:'自由に書いてね♪', align:'left' },
 ];
 
 // ============================================================
-// 定数
-// ============================================================
-const FONT_FAMILY  = "'Kosugi Maru', 'Hiragino Maru Gothic ProN', 'BIZ UDPGothic', sans-serif";
-const TEXT_COLOR   = '#333333';
-const TEMPLATE_SRC = 'assets/profile-template.png';
-
-// ============================================================
-// 状態管理（「戻る」ボタン用）
-// ============================================================
-let savedFormValues = {};
+const FONT_FAMILY = "'Kosugi Maru','Hiragino Maru Gothic ProN','BIZ UDPGothic',sans-serif";
+const TEXT_COLOR  = '#333333';
+const TMPL_SRC    = 'assets/profile-template.png';
 
 // ============================================================
 // 初期化
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  buildForm();
+  buildOverlay();
+  positionFields();               // 初回レイアウト
+  window.addEventListener('resize', positionFields);
+
   document.getElementById('generate-btn').addEventListener('click', handleGenerate);
-  document.getElementById('back-btn').addEventListener('click', showForm);
+  document.getElementById('back-btn').addEventListener('click', showEdit);
 });
 
 // ============================================================
-// フォーム自動生成
+// オーバーレイ生成（テンプレート上に入力要素を配置）
 // ============================================================
-function buildForm() {
-  const form = document.getElementById('profile-form');
-  form.innerHTML = '';
+function buildOverlay() {
+  const overlay = document.getElementById('overlay');
+  overlay.innerHTML = '';
 
   FIELDS.forEach(field => {
-    const group = document.createElement('div');
-    group.className = 'field-group';
+    let el;
 
-    const label = document.createElement('label');
-    label.className   = 'field-label';
-    label.htmlFor     = field.key;
-    label.textContent = field.label;
-    group.appendChild(label);
+    if (field.kind === 'select') {
+      el = document.createElement('select');
+      el.className = 'ov-select';
+      (field.options || []).forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt;
+        o.textContent = opt === '' ? '—' : opt;
+        el.appendChild(o);
+      });
 
-    if (field.type === 'select') {
-      group.appendChild(buildSelect(field));
-    } else if (field.wrap) {
-      group.appendChild(buildTextarea(field));
-      group.appendChild(buildCharCounter(field));
+    } else if (field.kind === 'textarea') {
+      el = document.createElement('textarea');
+      el.className    = 'ov-textarea';
+      el.maxLength    = field.maxLength;
+      el.rows         = field.maxLines;
+      el.placeholder  = field.placeholder || '';
+
     } else {
-      group.appendChild(buildInput(field));
+      el = document.createElement('input');
+      el.type         = 'text';
+      el.className    = 'ov-input';
+      el.maxLength    = field.maxLength;
+      el.placeholder  = field.placeholder || '';
+      el.autocomplete = 'off';
+      // 改行キーで次フィールドへ移動
+      el.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
     }
 
-    form.appendChild(group);
+    el.id   = `ov-${field.key}`;
+    el.name = field.key;
+    overlay.appendChild(el);
   });
-}
-
-function buildInput(field) {
-  const el = document.createElement('input');
-  el.type         = 'text';
-  el.id           = field.key;
-  el.name         = field.key;
-  el.className    = 'field-input';
-  el.maxLength    = field.maxLength;
-  el.placeholder  = field.placeholder || '';
-  el.autocomplete = 'off';
-
-  // Enter キーで改行・送信しない
-  el.addEventListener('keydown', e => {
-    if (e.key === 'Enter') e.preventDefault();
-  });
-
-  return el;
-}
-
-function buildSelect(field) {
-  const el = document.createElement('select');
-  el.id        = field.key;
-  el.name      = field.key;
-  el.className = 'field-select';
-
-  field.options.forEach(opt => {
-    const option = document.createElement('option');
-    option.value       = opt;
-    option.textContent = opt === '' ? '（選ばない）' : opt;
-    el.appendChild(option);
-  });
-
-  return el;
-}
-
-function buildTextarea(field) {
-  const el = document.createElement('textarea');
-  el.id          = field.key;
-  el.name        = field.key;
-  el.className   = 'field-textarea';
-  el.maxLength   = field.maxLength;
-  el.rows        = field.maxLines + 1;
-  el.placeholder = field.placeholder || '';
-
-  el.addEventListener('input', () => {
-    updateCharCounter(field, el.value.length);
-  });
-
-  return el;
-}
-
-function buildCharCounter(field) {
-  const counter = document.createElement('div');
-  counter.className   = 'char-count';
-  counter.id          = `${field.key}-count`;
-  counter.textContent = `0 / ${field.maxLength}`;
-  return counter;
-}
-
-function updateCharCounter(field, length) {
-  const counter = document.getElementById(`${field.key}-count`);
-  if (!counter) return;
-  counter.textContent = `${length} / ${field.maxLength}`;
-  counter.classList.toggle('near-limit', length >= Math.floor(field.maxLength * 0.8));
 }
 
 // ============================================================
-// フォーム値の収集
+// 全フィールドの表示位置・サイズを画像の表示サイズに合わせて計算
 // ============================================================
-function collectFormData() {
-  const data = {};
+function positionFields() {
+  const img = document.getElementById('template-img');
+  if (!img.offsetWidth) return;           // 画像未ロードなら skip
+
+  const dispW = img.offsetWidth;
+  const dispH = img.offsetHeight;
+  const scale = dispW / TMPL_W;          // 縦横比は維持されるので共通スケール
+
   FIELDS.forEach(field => {
-    const el = document.getElementById(field.key);
-    data[field.key] = el ? el.value.trim() : '';
-  });
-  return data;
-}
+    const el = document.getElementById(`ov-${field.key}`);
+    if (!el) return;
 
-// ============================================================
-// フォーム値の復元（「戻る」押下時）
-// ============================================================
-function restoreFormValues(data) {
-  FIELDS.forEach(field => {
-    const el = document.getElementById(field.key);
-    if (!el || data[field.key] === undefined) return;
-    el.value = data[field.key];
-    if (field.wrap) {
-      updateCharCounter(field, data[field.key].length);
+    const fs = Math.max(10, field.fs * scale);  // フォントサイズ（最低10px）
+
+    el.style.fontSize = fs + 'px';
+    el.style.width    = (field.w * scale) + 'px';
+    el.style.left     = (field.x * scale) + 'px';
+
+    if (field.kind === 'textarea') {
+      // textarea: y は1行目のbaseline → top = y - fontSize
+      const lineH = field.lh * scale;
+      el.style.top        = ((field.y - fs) * scale) + 'px';
+      el.style.lineHeight = lineH + 'px';
+      el.style.height     = (lineH * field.maxLines) + 'px';
+    } else {
+      // input / select: top = baseline - fontSize
+      el.style.top    = ((field.y - fs) * scale) + 'px';
+      el.style.height = (fs * 1.3) + 'px';       // 適度な高さ（タップしやすく）
+    }
+
+    // 中央揃え（血液型）
+    if (field.align === 'center') {
+      el.style.textAlign = 'center';
     }
   });
 }
@@ -335,132 +206,120 @@ function restoreFormValues(data) {
 // 生成ボタン処理
 // ============================================================
 async function handleGenerate() {
-  savedFormValues = collectFormData();
-
   const btn = document.getElementById('generate-btn');
   btn.disabled    = true;
   btn.textContent = '生成中…';
 
   try {
-    const dataURL = await renderProfileImage(savedFormValues);
+    const data    = collectValues();
+    const dataURL = await renderCanvas(data);
     showPreview(dataURL);
   } catch (err) {
     console.error(err);
     alert('画像の生成に失敗しました。\nassets/profile-template.png が存在するか確認してください。');
   } finally {
     btn.disabled    = false;
-    btn.textContent = '✨ 生成する';
+    btn.textContent = '✨ 完成画像を作る';
   }
 }
 
 // ============================================================
-// Canvas 描画：メイン
+// 入力値の収集
 // ============================================================
-async function renderProfileImage(data) {
-  const templateImg = await loadImage(TEMPLATE_SRC);
+function collectValues() {
+  const data = {};
+  FIELDS.forEach(f => {
+    const el = document.getElementById(`ov-${f.key}`);
+    data[f.key] = el ? el.value.trim() : '';
+  });
+  return data;
+}
+
+// ============================================================
+// Canvas 描画（フル解像度 TMPL_W × TMPL_H で出力）
+// ============================================================
+async function renderCanvas(data) {
+  const tmpl = await loadImage(TMPL_SRC);
 
   const canvas  = document.getElementById('canvas');
-  canvas.width  = templateImg.naturalWidth;
-  canvas.height = templateImg.naturalHeight;
+  canvas.width  = tmpl.naturalWidth;
+  canvas.height = tmpl.naturalHeight;
 
   const ctx = canvas.getContext('2d');
-  ctx.drawImage(templateImg, 0, 0);
+  ctx.drawImage(tmpl, 0, 0);
 
-  // Webフォント読み込み完了を待つ（ここを省略するとフォントがズレる）
-  await document.fonts.ready;
+  await document.fonts.ready;   // Webフォント読み込み完了を待つ
 
   FIELDS.forEach(field => {
     const value = data[field.key];
     if (!value) return;
-    drawField(ctx, field, value);
+
+    ctx.save();
+    ctx.font         = `${field.fs}px ${FONT_FAMILY}`;
+    ctx.fillStyle    = TEXT_COLOR;
+    ctx.textBaseline = 'alphabetic';
+
+    if (field.wrap) {
+      drawWrapped(ctx, value, field);
+    } else {
+      drawSingle(ctx, value, field);
+    }
+    ctx.restore();
   });
 
   return canvas.toDataURL('image/png');
 }
 
 // ============================================================
-// フィールド描画（1行 / 複数行の振り分け）
-// ============================================================
-function drawField(ctx, field, value) {
-  ctx.save();
-  ctx.font         = `${field.fontSize}px ${FONT_FAMILY}`;
-  ctx.fillStyle    = TEXT_COLOR;
-  ctx.textBaseline = field.baseline;
-
-  if (field.wrap) {
-    drawWrappedText(ctx, value, field);
-  } else {
-    drawSingleLineText(ctx, value, field);
-  }
-
-  ctx.restore();
-}
-
-// ============================================================
 // 1行テキスト描画
 // ============================================================
-function drawSingleLineText(ctx, value, field) {
-  ctx.textAlign = field.align;
-
+function drawSingle(ctx, value, field) {
+  ctx.textAlign = field.align || 'left';
   const drawX = field.align === 'center'
-    ? field.x + field.boxWidth / 2
+    ? field.x + field.w / 2
     : field.x;
-
   ctx.fillText(value.slice(0, field.maxLength), drawX, field.y);
 }
 
 // ============================================================
-// 複数行テキスト描画（ひとことメッセージ専用）
+// 複数行テキスト描画（ひとことメッセージ）
 // ============================================================
-function drawWrappedText(ctx, value, field) {
+function drawWrapped(ctx, value, field) {
   ctx.textAlign = 'left';
-
-  const lines = breakIntoLines(ctx, value, field.boxWidth, field.maxLines);
-
+  const lines = splitLines(ctx, value, field.w, field.maxLines);
   lines.forEach((line, i) => {
-    ctx.fillText(line, field.x, field.y + i * field.lineHeight);
+    ctx.fillText(line, field.x, field.y + i * field.lh);
   });
 }
 
 // ============================================================
-// 自動改行処理
-// measureText で毎文字チェックし、boxWidth を超えたら折り返す
+// 自動改行：measureText で幅超過したら折り返す
 // ============================================================
-function breakIntoLines(ctx, text, maxWidth, maxLines) {
+function splitLines(ctx, text, maxWidth, maxLines) {
   const lines = [];
-  let currentLine = '';
-
-  for (const char of text) {
-    const candidate = currentLine + char;
-
-    if (ctx.measureText(candidate).width > maxWidth && currentLine !== '') {
-      lines.push(currentLine);
-      currentLine = char;
-
-      if (lines.length >= maxLines) {
-        currentLine = '';
-        break;
-      }
+  let cur = '';
+  for (const ch of text) {
+    const test = cur + ch;
+    if (ctx.measureText(test).width > maxWidth && cur !== '') {
+      lines.push(cur);
+      cur = ch;
+      if (lines.length >= maxLines) { cur = ''; break; }
     } else {
-      currentLine = candidate;
+      cur = test;
     }
   }
-
-  if (currentLine && lines.length < maxLines) {
-    lines.push(currentLine);
-  }
-
+  if (cur && lines.length < maxLines) lines.push(cur);
   return lines;
 }
 
 // ============================================================
-// 画像読み込み（Promise化）
+// 画像読み込み（Promise）
 // ============================================================
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     const img   = new Image();
     img.onload  = () => resolve(img);
-    img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+    img.onerror = () => reject(new Error('画像を読み込めませんでした: ' + src));
     img.src     = src;
   });
 }
@@ -470,17 +329,16 @@ function loadImage(src) {
 // ============================================================
 function showPreview(dataURL) {
   document.getElementById('preview-img').src = dataURL;
-  document.getElementById('form-screen').classList.add('hidden');
+  document.getElementById('edit-screen').classList.add('hidden');
   document.getElementById('preview-screen').classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ============================================================
-// フォーム画面に戻る（入力内容を保持）
+// 編集画面に戻る（入力値はそのまま残る）
 // ============================================================
-function showForm() {
+function showEdit() {
   document.getElementById('preview-screen').classList.add('hidden');
-  document.getElementById('form-screen').classList.remove('hidden');
-  restoreFormValues(savedFormValues);
+  document.getElementById('edit-screen').classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
